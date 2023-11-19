@@ -21,7 +21,6 @@ function HomePage({navigation}: {navigation: any}) {
     });
     let data = await res.json();
     setExams(data.data);
-    console.log(data.data);
   };
 
   useEffect(() => {

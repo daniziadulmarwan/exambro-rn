@@ -3,13 +3,10 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
-import moment from 'moment';
 import Countdown from 'react-countdown';
 
 function WebViews({route, navigation}: any) {
-  const {url, name, start, end} = route.params;
-
-  let d = new Date().getTime() + 100000;
+  const {url, name, start, end}: any = route.params;
 
   return (
     <View style={styles.container}>
@@ -21,7 +18,7 @@ function WebViews({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
         <Countdown
-          date={d}
+          date={Date.now() + 200000}
           renderer={({hours, minutes, seconds, completed}: any) => {
             return (
               <Text>
