@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginBottom: 5,
   },
   title: {
     fontSize: 16,
@@ -151,9 +150,10 @@ const styles = StyleSheet.create({
   },
   activeStatus: {
     color: '#FD9340',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
-    fontFamily: 'Poppins-Semibold',
+    fontFamily: 'Poppins-SemiBold',
+    textTransform: 'uppercase',
   },
 });
 

@@ -37,6 +37,11 @@ export default function ClassPage({route, navigation}: any) {
       </View>
       {classes.map((item: any) => (
         <TouchableOpacity
+          disabled={
+            new Date(item.start_time).getTime() < new Date().getTime()
+              ? false
+              : true
+          }
           style={styles.card}
           key={item.id}
           onPress={() =>
@@ -53,11 +58,15 @@ export default function ClassPage({route, navigation}: any) {
             <View>
               <Text style={styles.title}>{item.mapel}</Text>
               <Text style={styles.subTitle}>
+                {moment(new Date(item.start_time)).format('dddd')},{' '}
+                {moment(new Date(item.start_time)).format('ll')}
+              </Text>
+              <Text style={styles.subTitle2}>
                 {moment(new Date(item.start_time)).format('LT')} -{' '}
                 {moment(new Date(item.end_time)).format('LT')}
               </Text>
             </View>
-            {item.start_time > Date.now() ? (
+            {new Date(item.start_time).getTime() < new Date().getTime() ? (
               <Text style={styles.activeStatus}>Active</Text>
             ) : (
               <Text style={styles.nonactiveStatus}>Non Active</Text>
@@ -131,7 +140,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginBottom: 5,
   },
   title: {
     fontSize: 16,
@@ -144,16 +152,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Poppins-Regular',
   },
+  subTitle2: {
+    color: '#B3B1B0',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+    marginTop: -6,
+  },
   activeStatus: {
     color: '#FD9340',
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: '600',
-    fontFamily: 'Poppins-Semibold',
+    fontFamily: 'Poppins-SemiBold',
+    textTransform: 'uppercase',
   },
   nonactiveStatus: {
     color: '#E5E4E3',
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: '600',
-    fontFamily: 'Poppins-Semibold',
+    fontFamily: 'Poppins-SemiBold',
+    textTransform: 'uppercase',
   },
 });
