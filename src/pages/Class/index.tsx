@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LeftArrow from '../../assets/left-arrow.png';
 import Book from '../../assets/cover.png';
@@ -11,7 +19,6 @@ moment.locale('id');
 export default function ClassPage({route, navigation}: any) {
   const apiUrl = 'http://10.0.2.2:3000/api/v1/classes';
   const {id, name} = route.params;
-  // const id = 1;
 
   const [classes, setClasses] = useState([]);
 
@@ -35,45 +42,55 @@ export default function ClassPage({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
       </View>
-      {classes.map((item: any) => (
-        <TouchableOpacity
-          disabled={
-            new Date(item.start_time).getTime() < new Date().getTime()
-              ? false
-              : true
-          }
-          style={styles.card}
-          key={item.id}
-          onPress={() =>
-            navigation.navigate('WebView', {
-              url: item.url,
-              name: item.mapel,
-            })
-          }>
-          <View style={styles.cover}>
-            <Image source={Book} style={styles.book} />
-          </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.cnt}>
+          {classes.map((item: any) => {
+            return (
+              <TouchableOpacity
+                disabled={
+                  new Date(item.start_time).getTime() >= new Date().getTime()
+                    ? false
+                    : true
+                }
+                style={styles.card}
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate('WebView', {
+                    url: item.url,
+                    name: item.mapel,
+                    start: item.start_time,
+                    end: item.end_time,
+                  })
+                }>
+                <View style={styles.cover}>
+                  <Image source={Book} style={styles.book} />
+                </View>
 
-          <View style={styles.wrapper}>
-            <View>
-              <Text style={styles.title}>{item.mapel}</Text>
-              <Text style={styles.subTitle}>
-                {moment(new Date(item.start_time)).format('dddd')},{' '}
-                {moment(new Date(item.start_time)).format('ll')}
-              </Text>
-              <Text style={styles.subTitle2}>
-                {moment(new Date(item.start_time)).format('LT')} -{' '}
-                {moment(new Date(item.end_time)).format('LT')}
-              </Text>
-            </View>
-            {new Date(item.start_time).getTime() < new Date().getTime() ? (
-              <Text style={styles.activeStatus}>Active</Text>
-            ) : (
-              <Text style={styles.nonactiveStatus}>Non Active</Text>
-            )}
-          </View>
-        </TouchableOpacity>
-      ))}
+                <View style={styles.wrapper}>
+                  <View>
+                    <Text style={styles.title}>{item.mapel}</Text>
+                    <Text style={styles.subTitle}>
+                      {moment(new Date(item.start_time)).format('dddd')},{' '}
+                      {moment(new Date(item.start_time)).format('ll')}
+                    </Text>
+                    <Text style={styles.subTitle2}>
+                      {moment(new Date(item.start_time)).format('LT')} -{' '}
+                      {moment(new Date(item.end_time)).format('LT')}
+                    </Text>
+                  </View>
+                  {new Date(item.start_time).getTime() > new Date().getTime() &&
+                  new Date(item.start_time).getTime() <
+                    new Date(item.end_time).getTime() ? (
+                    <Text style={styles.activeStatus}>Active</Text>
+                  ) : (
+                    <Text style={styles.nonactiveStatus}>Non Active</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -81,14 +98,19 @@ export default function ClassPage({route, navigation}: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
     backgroundColor: 'white',
+  },
+  cnt: {
+    paddingHorizontal: 24,
+    paddingBottom: 20,
   },
   header: {
     marginTop: 16,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingBottom: 7,
   },
   headerText: {
     flex: 1,

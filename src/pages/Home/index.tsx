@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  ScrollView,
+} from 'react-native';
 import Notif from '../../assets/notif.png';
 import Book from '../../assets/fzm.png';
 
@@ -14,6 +21,7 @@ function HomePage({navigation}: {navigation: any}) {
     });
     let data = await res.json();
     setExams(data.data);
+    console.log(data.data);
   };
 
   useEffect(() => {
@@ -32,29 +40,33 @@ function HomePage({navigation}: {navigation: any}) {
           <View style={styles.dot} />
         </TouchableOpacity>
       </View>
-      {exams.map((item: any) => (
-        <TouchableOpacity
-          style={styles.card}
-          key={item.id}
-          onPress={() =>
-            navigation.navigate('Class', {
-              id: item.id,
-              name: item.title,
-            })
-          }>
-          <View style={styles.cover}>
-            <Image source={Book} style={styles.book} />
-          </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.cnt}>
+          {exams.map((item: any) => (
+            <TouchableOpacity
+              style={styles.card}
+              key={item.id}
+              onPress={() =>
+                navigation.navigate('Class', {
+                  id: item.id,
+                  name: item.title,
+                })
+              }>
+              <View style={styles.cover}>
+                <Image source={Book} style={styles.book} />
+              </View>
 
-          <View style={styles.wrapper}>
-            <View>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.subTitle}>Tahun 2023/2024</Text>
-            </View>
-            <Text style={styles.activeStatus}>{item.exam.length} Soal</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+              <View style={styles.wrapper}>
+                <View>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.subTitle}>Tahun 2023/2024</Text>
+                </View>
+                <Text style={styles.activeStatus}>{item.exam.length} Soal</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -62,15 +74,20 @@ function HomePage({navigation}: {navigation: any}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
     backgroundColor: 'white',
   },
+  cnt: {
+    paddingHorizontal: 24,
+    paddingBottom: 20,
+  },
   header: {
+    paddingHorizontal: 24,
     marginTop: 16,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingBottom: 7,
   },
   welcome: {
     color: '#B3B1B0',

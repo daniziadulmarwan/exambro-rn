@@ -30,7 +30,7 @@ function App() {
         <Stack.Screen
           name="WebView"
           component={WebViews}
-          options={({route}: any) => ({title: `${route.params?.name}`})}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
