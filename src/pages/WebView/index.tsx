@@ -1,9 +1,26 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
 import Countdown from 'react-countdown';
+
+const ActivityIndicatorElement = () => {
+  return (
+    <ActivityIndicator
+      color="#009688"
+      size="large"
+      style={styles.activityIndicatorStyle}
+    />
+  );
+};
 
 function WebViews({route, navigation}: any) {
   const {id, url, name, start, end}: any = route.params;
@@ -18,7 +35,7 @@ function WebViews({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
         <Countdown
-          date={Date.now() + 7200}
+          date={Date.now() + 7200000}
           renderer={({hours, minutes, seconds, completed}: any) => {
             if (completed) {
               navigation.goBack({id});
@@ -32,6 +49,8 @@ function WebViews({route, navigation}: any) {
         />
       </View>
       <WebView
+        renderLoading={ActivityIndicatorElement}
+        startInLoadingState={true}
         source={{
           uri: url,
         }}
@@ -42,6 +61,14 @@ function WebViews({route, navigation}: any) {
 }
 
 const styles = StyleSheet.create({
+  activityIndicatorStyle: {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
   container: {
     flex: 1,
     backgroundColor: '#ffffff',

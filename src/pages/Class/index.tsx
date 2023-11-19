@@ -48,7 +48,7 @@ export default function ClassPage({route, navigation}: any) {
             return (
               <TouchableOpacity
                 disabled={
-                  new Date(item.start_time).getTime() > new Date().getTime()
+                  new Date(item.start_time).getTime() <= new Date().getTime()
                     ? false
                     : true
                 }
@@ -79,7 +79,7 @@ export default function ClassPage({route, navigation}: any) {
                       {moment(new Date(item.end_time)).format('LT')}
                     </Text>
                   </View>
-                  {new Date(item.start_time).getTime() >
+                  {new Date(item.start_time).getTime() <=
                   new Date().getTime() ? (
                     <Text style={styles.activeStatus}>Active</Text>
                   ) : (
