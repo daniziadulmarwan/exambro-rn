@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
 import Countdown from 'react-countdown';
 
 function WebViews({route, navigation}: any) {
-  const {url, name, start, end}: any = route.params;
+  const {id, url, name, start, end}: any = route.params;
 
   return (
     <View style={styles.container}>
@@ -18,10 +18,13 @@ function WebViews({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
         <Countdown
-          date={Date.now() + 200000}
+          date={Date.now() + 7200}
           renderer={({hours, minutes, seconds, completed}: any) => {
+            if (completed) {
+              navigation.goBack({id});
+            }
             return (
-              <Text>
+              <Text style={styles.timer}>
                 {hours}:{minutes}:{seconds}
               </Text>
             );
@@ -49,6 +52,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
+  },
+  timer: {
+    color: '#FD9340',
+    fontFamily: 'Poppins-Medium',
   },
   headerText: {
     flex: 1,
