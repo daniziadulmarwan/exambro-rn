@@ -23,7 +23,7 @@ const ActivityIndicatorElement = () => {
 };
 
 function WebViews({route, navigation}: any) {
-  const {id, url, name, start, end}: any = route.params;
+  const {url, name, end}: any = route.params;
 
   return (
     <View style={styles.container}>
@@ -35,11 +35,12 @@ function WebViews({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
         <Countdown
-          date={Date.now() + 7200000}
+          date={new Date(end).getTime()}
           renderer={({hours, minutes, seconds, completed}: any) => {
             if (completed) {
-              navigation.goBack({id});
+              navigation.popToTop();
             }
+
             return (
               <Text style={styles.timer}>
                 {hours}:{minutes}:{seconds}

@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,24 +12,24 @@ import LeftArrow from '../../assets/left-arrow.png';
 import Book from '../../assets/cover.png';
 import moment from 'moment';
 import 'moment/locale/id';
+import {apiUrl} from '../../utils/url';
 
 moment.locale('id');
 
 export default function ClassPage({route, navigation}: any) {
-  const apiUrl = 'http://10.0.2.2:3000/api/v1/classes';
   const {id, name} = route.params;
 
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     const getApi = async () => {
-      let res = await fetch(`${apiUrl}/${id}`);
+      let res = await fetch(`${apiUrl}/class/${id}`);
       let data = await res.json();
-      setClasses(data.data.exam);
+      setClasses(data.data.exams);
     };
 
     getApi();
-  });
+  }, [id]);
 
   return (
     <View style={styles.container}>
@@ -56,10 +55,8 @@ export default function ClassPage({route, navigation}: any) {
                 key={item.id}
                 onPress={() =>
                   navigation.navigate('WebView', {
-                    id: id,
                     url: item.url,
                     name: item.mapel,
-                    start: item.start_time,
                     end: item.end_time,
                   })
                 }>

@@ -7,20 +7,22 @@ import {
   View,
   Image,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import Notif from '../../assets/notif.png';
 import Book from '../../assets/fzm.png';
+import {apiUrl} from '../../utils/url';
 
 function HomePage({navigation}: {navigation: any}) {
-  const apiUrl = 'http://10.0.2.2:3000/api/v1/classes';
   const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchExamData = async () => {
-    let res = await fetch(apiUrl, {
+    let res = await fetch(`${apiUrl}/class`, {
       method: 'get',
     });
     let data = await res.json();
-    setExams(data.data);
+    setExams(data.datas);
   };
 
   useEffect(() => {
@@ -39,7 +41,11 @@ function HomePage({navigation}: {navigation: any}) {
           <View style={styles.dot} />
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={fetchExamData} />
+        }>
         <View style={styles.cnt}>
           {exams.map((item: any) => (
             <TouchableOpacity
@@ -60,7 +66,9 @@ function HomePage({navigation}: {navigation: any}) {
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.subTitle}>Tahun 2023/2024</Text>
                 </View>
-                <Text style={styles.activeStatus}>{item.exam.length} Soal</Text>
+                <Text style={styles.activeStatus}>
+                  {item.exams.length} Soal
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
