@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -11,7 +11,6 @@ import {
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
 // import Countdown from 'react-countdown';
-import {hideNavigationBar} from 'react-native-navigation-bar-color';
 
 const ActivityIndicatorElement = () => {
   return (
@@ -25,10 +24,6 @@ const ActivityIndicatorElement = () => {
 
 function WebViews({route, navigation}: any) {
   const {url, name, end, start}: any = route.params;
-
-  React.useEffect(() => {
-    hideNavigationBar();
-  }, []);
 
   return (
     <View style={styles.container}>
