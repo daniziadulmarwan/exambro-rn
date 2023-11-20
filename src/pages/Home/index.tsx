@@ -8,9 +8,11 @@ import {
   Image,
   ScrollView,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import Notif from '../../assets/notif.png';
 import Book from '../../assets/fzm.png';
+import Lock from '../../assets/lock.png';
 import {apiUrl} from '../../utils/url';
 
 function HomePage({navigation}: {navigation: any}) {
@@ -76,6 +78,16 @@ function HomePage({navigation}: {navigation: any}) {
           ))}
         </View>
       </ScrollView>
+
+      <View style={styles.exitWrapper}>
+        <TouchableOpacity
+          style={styles.exitButton}
+          onPress={() => {
+            BackHandler.exitApp();
+          }}>
+          <Image source={Lock} style={styles.exitImage} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -84,6 +96,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    paddingTop: 25,
   },
   cnt: {
     paddingHorizontal: 24,
@@ -180,6 +193,23 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'Poppins-SemiBold',
     textTransform: 'uppercase',
+  },
+  exitWrapper: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+  exitButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 40,
+    backgroundColor: '#FD9340',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  exitImage: {
+    width: 30,
+    height: 30,
   },
 });
 

@@ -11,6 +11,7 @@ import {
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
 // import Countdown from 'react-countdown';
+import {hideNavigationBar} from 'react-native-navigation-bar-color';
 
 const ActivityIndicatorElement = () => {
   return (
@@ -25,13 +26,9 @@ const ActivityIndicatorElement = () => {
 function WebViews({route, navigation}: any) {
   const {url, name, end, start}: any = route.params;
 
-  const [hasil, setHasil] = useState(0);
-
   React.useEffect(() => {
-    setHasil(new Date(end).getTime() - new Date(start).getTime());
-  }, [start, end]);
-
-  console.log(new Date(hasil));
+    hideNavigationBar();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -77,6 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+    paddingTop: 25,
   },
   header: {
     paddingVertical: 15,
