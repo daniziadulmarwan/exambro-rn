@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
-import Countdown from 'react-countdown';
+// import Countdown from 'react-countdown';
 
 const ActivityIndicatorElement = () => {
   return (
@@ -23,7 +23,15 @@ const ActivityIndicatorElement = () => {
 };
 
 function WebViews({route, navigation}: any) {
-  const {url, name, end}: any = route.params;
+  const {url, name, end, start}: any = route.params;
+
+  const [hasil, setHasil] = useState(0);
+
+  React.useEffect(() => {
+    setHasil(new Date(end).getTime() - new Date(start).getTime());
+  }, [start, end]);
+
+  console.log(new Date(hasil));
 
   return (
     <View style={styles.container}>
@@ -34,20 +42,16 @@ function WebViews({route, navigation}: any) {
           <Image source={LeftArrow} style={styles.image} />
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
-        <Countdown
-          date={new Date(end).getTime()}
+        {/* <Countdown
+          date={Date.now() + +hasil}
           renderer={({hours, minutes, seconds, completed}: any) => {
-            if (completed) {
-              navigation.popToTop();
-            }
-
             return (
               <Text style={styles.timer}>
                 {hours}:{minutes}:{seconds}
               </Text>
             );
           }}
-        />
+        /> */}
       </View>
       <WebView
         renderLoading={ActivityIndicatorElement}

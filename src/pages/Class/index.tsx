@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {
   Image,
@@ -6,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LeftArrow from '../../assets/left-arrow.png';
@@ -20,14 +22,17 @@ export default function ClassPage({route, navigation}: any) {
   const {id, name} = route.params;
 
   const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getApi = async () => {
+    setLoading(true);
+    let res = await fetch(`${apiUrl}/class/${id}`);
+    let data = await res.json();
+    setLoading(false);
+    setClasses(data.data.exams);
+  };
 
   useEffect(() => {
-    const getApi = async () => {
-      let res = await fetch(`${apiUrl}/class/${id}`);
-      let data = await res.json();
-      setClasses(data.data.exams);
-    };
-
     getApi();
   }, [id]);
 
@@ -41,52 +46,53 @@ export default function ClassPage({route, navigation}: any) {
         </TouchableOpacity>
         <Text style={styles.headerText}>{name}</Text>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.cnt}>
-          {classes.map((item: any) => {
-            return (
-              <TouchableOpacity
-                disabled={
-                  new Date(item.start_time).getTime() <= new Date().getTime()
-                    ? false
-                    : true
-                }
-                style={styles.card}
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate('WebView', {
-                    url: item.url,
-                    name: item.mapel,
-                    end: item.end_time,
-                  })
-                }>
-                <View style={styles.cover}>
-                  <Image source={Book} style={styles.book} />
-                </View>
-
-                <View style={styles.wrapper}>
-                  <View>
-                    <Text style={styles.title}>{item.mapel}</Text>
-                    <Text style={styles.subTitle}>
-                      {moment(new Date(item.start_time)).format('dddd')},{' '}
-                      {moment(new Date(item.start_time)).format('ll')}
-                    </Text>
-                    <Text style={styles.subTitle2}>
-                      {moment(new Date(item.start_time)).format('LT')} -{' '}
-                      {moment(new Date(item.end_time)).format('LT')}
-                    </Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={getApi} />
+        }>
+        {classes.length > 0 ? (
+          <View style={styles.cnt}>
+            {classes.map((item: any) => {
+              return (
+                <TouchableOpacity
+                  style={styles.card}
+                  key={item.id}
+                  onPress={() =>
+                    navigation.navigate('WebView', {
+                      url: item.url,
+                      name: item.mapel,
+                      end: item.end_time,
+                      start: item.start_time,
+                    })
+                  }>
+                  <View style={styles.cover}>
+                    <Image source={Book} style={styles.book} />
                   </View>
-                  {new Date(item.start_time).getTime() <=
-                  new Date().getTime() ? (
+
+                  <View style={styles.wrapper}>
+                    <View>
+                      <Text style={styles.title}>{item.mapel}</Text>
+                      <Text style={styles.subTitle}>
+                        {moment(new Date(item.start_time)).format('dddd')},{' '}
+                        {moment(new Date(item.start_time)).format('ll')}
+                      </Text>
+                      <Text style={styles.subTitle2}>
+                        {moment(new Date(item.start_time)).format('LT')} -{' '}
+                        {moment(new Date(item.end_time)).format('LT')}
+                      </Text>
+                    </View>
                     <Text style={styles.activeStatus}>Active</Text>
-                  ) : (
-                    <Text style={styles.nonactiveStatus}>Non Active</Text>
-                  )}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        ) : (
+          <View style={styles.cnt}>
+            <Text style={styles.textEmpty}>Data empty</Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -100,6 +106,12 @@ const styles = StyleSheet.create({
   cnt: {
     paddingHorizontal: 24,
     paddingBottom: 20,
+  },
+  textEmpty: {
+    textAlign: 'center',
+    marginTop: '50%',
+    fontSize: 18,
+    fontFamily: 'Poppins-Regular',
   },
   header: {
     marginTop: 16,

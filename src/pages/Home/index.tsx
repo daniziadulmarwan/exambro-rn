@@ -18,10 +18,12 @@ function HomePage({navigation}: {navigation: any}) {
   const [loading, setLoading] = useState(false);
 
   const fetchExamData = async () => {
+    setLoading(true);
     let res = await fetch(`${apiUrl}/class`, {
       method: 'get',
     });
     let data = await res.json();
+    setLoading(false);
     setExams(data.datas);
   };
 
