@@ -14,7 +14,6 @@ import Notif from '../../assets/notif.png';
 import Book from '../../assets/fzm.png';
 import Lock from '../../assets/lock.png';
 import {apiUrl} from '../../utils/url';
-import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 function HomePage({navigation}: {navigation: any}) {
   const [exams, setExams] = useState([]);
@@ -22,17 +21,21 @@ function HomePage({navigation}: {navigation: any}) {
 
   const fetchExamData = async () => {
     setLoading(true);
-    let res = await fetch(`${apiUrl}/class`, {
-      method: 'get',
-    });
-    let data = await res.json();
-    setLoading(false);
-    setExams(data.datas);
+    try {
+      let res = await fetch(`${apiUrl}/class`, {
+        method: 'get',
+      });
+      let data = await res.json();
+      setLoading(false);
+      setExams(data.datas);
+    } catch (error) {
+      setLoading(false);
+      setExams([]);
+    }
   };
 
   useEffect(() => {
     fetchExamData();
-    SystemNavigationBar.navigationHide();
   }, []);
 
   return (
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 25,
+    paddingTop: 7,
   },
   cnt: {
     paddingHorizontal: 24,

@@ -6,8 +6,6 @@ import HomePage from './src/pages/Home';
 import WebViews from './src/pages/WebView';
 import SplashPage from './src/pages/Splash';
 import ClassPage from './src/pages/Class';
-import SystemNavigationBar from 'react-native-system-navigation-bar';
-// import {BackHandler, AppState} from 'react-native';
 import {AppState, NativeModules} from 'react-native';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 
@@ -19,10 +17,9 @@ function App() {
     appState.current,
   );
 
-  // console.log(appStateVisible);
+  console.log(appStateVisible);
 
   React.useEffect(() => {
-    SystemNavigationBar.navigationHide();
     const subscription = AppState.addEventListener(
       'change',
       (nextAppState: any) => {
@@ -36,7 +33,7 @@ function App() {
 
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
-        // console.log('AppState', appState.current);
+        console.log('AppState', appState.current);
       },
     );
 

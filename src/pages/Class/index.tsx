@@ -26,10 +26,15 @@ export default function ClassPage({route, navigation}: any) {
 
   const getApi = async () => {
     setLoading(true);
-    let res = await fetch(`${apiUrl}/class/${id}`);
-    let data = await res.json();
-    setLoading(false);
-    setClasses(data.data.exams);
+    try {
+      let res = await fetch(`${apiUrl}/exams/${id}`);
+      let data = await res.json();
+      setLoading(false);
+      setClasses(data.data);
+    } catch (error) {
+      setLoading(false);
+      setClasses([]);
+    }
   };
 
   useEffect(() => {
@@ -56,6 +61,7 @@ export default function ClassPage({route, navigation}: any) {
             {classes.map((item: any) => {
               return (
                 <TouchableOpacity
+                  disabled={item.status === 'active' ? false : true}
                   style={styles.card}
                   key={item.id}
                   onPress={() =>
@@ -82,7 +88,12 @@ export default function ClassPage({route, navigation}: any) {
                         {moment(new Date(item.end_time)).format('LT')}
                       </Text>
                     </View>
-                    <Text style={styles.activeStatus}>Active</Text>
+
+                    {item.status === 'active' ? (
+                      <Text style={styles.activeStatus}>Active</Text>
+                    ) : (
+                      <Text style={styles.nonactiveStatus}>Non Active</Text>
+                    )}
                   </View>
                 </TouchableOpacity>
               );
@@ -102,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 25,
+    paddingTop: 7,
   },
   cnt: {
     paddingHorizontal: 24,
