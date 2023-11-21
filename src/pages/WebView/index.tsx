@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import WebView from 'react-native-webview';
 import LeftArrow from '../../assets/left-arrow.png';
+import moment from 'moment';
 // import Countdown from 'react-countdown';
 
 const ActivityIndicatorElement = () => {
@@ -23,7 +24,7 @@ const ActivityIndicatorElement = () => {
 };
 
 function WebViews({route, navigation}: any) {
-  const {url, name, end, start}: any = route.params;
+  const {url, name, start, end}: any = route.params;
 
   return (
     <View style={styles.container}>
@@ -33,7 +34,12 @@ function WebViews({route, navigation}: any) {
           onPress={() => navigation.goBack()}>
           <Image source={LeftArrow} style={styles.image} />
         </TouchableOpacity>
-        <Text style={styles.headerText}>{name}</Text>
+        <View style={styles.headerTextWrapper}>
+          <Text style={styles.headerText}>{name}</Text>
+          <Text style={styles.headerSubText}>
+            {moment(start).format('LT')} - {moment(end).format('LT')}
+          </Text>
+        </View>
         {/* <Countdown
           date={Date.now() + +hasil}
           renderer={({hours, minutes, seconds, completed}: any) => {
@@ -72,23 +78,29 @@ const styles = StyleSheet.create({
     paddingTop: 25,
   },
   header: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
   },
-  timer: {
-    color: '#FD9340',
-    fontFamily: 'Poppins-Medium',
+  headerTextWrapper: {
+    flex: 1,
   },
   headerText: {
-    flex: 1,
     textAlign: 'center',
     color: '#000000',
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
     textTransform: 'uppercase',
+  },
+  headerSubText: {
+    textAlign: 'center',
+    marginTop: -8,
+  },
+  timer: {
+    color: '#FD9340',
+    fontFamily: 'Poppins-Medium',
   },
   image: {
     width: 24,
@@ -97,6 +109,13 @@ const styles = StyleSheet.create({
   icon: {
     justifyContent: 'center',
     alignItems: 'center',
+
+    width: 46,
+    height: 46,
+    borderRadius: 16,
+    backgroundColor: 'white',
+    elevation: 8,
+    shadowColor: '#000000',
   },
   webView: {
     flex: 1,

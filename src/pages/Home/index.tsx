@@ -14,6 +14,7 @@ import Notif from '../../assets/notif.png';
 import Book from '../../assets/fzm.png';
 import Lock from '../../assets/lock.png';
 import {apiUrl} from '../../utils/url';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 function HomePage({navigation}: {navigation: any}) {
   const [exams, setExams] = useState([]);
@@ -31,6 +32,7 @@ function HomePage({navigation}: {navigation: any}) {
 
   useEffect(() => {
     fetchExamData();
+    SystemNavigationBar.navigationHide();
   }, []);
 
   return (
