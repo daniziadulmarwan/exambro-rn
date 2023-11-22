@@ -40,7 +40,7 @@ function App() {
     return () => {
       subscription.remove();
     };
-  }, []);
+  }, [appStateVisible]);
 
   return (
     <InternetConnectionAlert>
