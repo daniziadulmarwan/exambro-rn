@@ -8,6 +8,7 @@ import SplashPage from './src/pages/Splash';
 import ClassPage from './src/pages/Class';
 import {AppState, NativeModules} from 'react-native';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
+import RNRestart from 'react-native-restart';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +28,8 @@ function App() {
           appState.current.match(/inactive|background/) &&
           nextAppState === 'active'
         ) {
-          NativeModules.DevSettings.reload();
+          // NativeModules.DevSettings.reload();
+          RNRestart.restart();
           console.log('App has come to the foreground!');
         }
 
