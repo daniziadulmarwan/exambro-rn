@@ -76,7 +76,7 @@ function HomePage({navigation}: {navigation: any}) {
                   <Text style={styles.subTitle}>Tahun 2023/2024</Text>
                 </View>
                 <Text style={styles.activeStatus}>
-                  {item.exams.length} Soal
+                  {item.exams?.length && 0} Soal
                 </Text>
               </View>
             </TouchableOpacity>

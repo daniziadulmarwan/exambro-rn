@@ -6,7 +6,7 @@ import Logo from '../../assets/alamin-logo.png';
 function SplashPage({navigation}: any) {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Home');
+      navigation.replace('Token');
     }, 3000);
   });
 

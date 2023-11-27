@@ -6,9 +6,11 @@ import HomePage from './src/pages/Home';
 import WebViews from './src/pages/WebView';
 import SplashPage from './src/pages/Splash';
 import ClassPage from './src/pages/Class';
-import {AppState, NativeModules} from 'react-native';
+import {AppState} from 'react-native';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import RNRestart from 'react-native-restart';
+import TokenPage from './src/pages/Token';
+import FlashMessage from 'react-native-flash-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +30,6 @@ function App() {
           appState.current.match(/inactive|background/) &&
           nextAppState === 'active'
         ) {
-          // NativeModules.DevSettings.reload();
           RNRestart.restart();
           console.log('App has come to the foreground!');
         }
@@ -54,6 +55,11 @@ function App() {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="Token"
+            component={TokenPage}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="Home"
             component={HomePage}
             options={{headerShown: false}}
@@ -70,6 +76,7 @@ function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      <FlashMessage position="top" />
     </InternetConnectionAlert>
   );
 }
