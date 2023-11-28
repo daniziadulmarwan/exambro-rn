@@ -48,10 +48,13 @@ const TokenPage = ({navigation}: any) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Token</Text>
-      </View>
       <View style={styles.cnt}>
+        <Text style={styles.welcome}>Hello, Welcome Back!</Text>
+        <Text style={styles.subText}>
+          Sabr is when you are facing a big hardship but still say,
+          Alhamdulillah.
+        </Text>
+        <Text style={styles.tokenText}>Please input token first</Text>
         <TextInput
           style={styles.textInput}
           placeholder="Enter your token"
@@ -81,23 +84,27 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 46,
   },
-  header: {
-    marginTop: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingBottom: 7,
-  },
-  headerText: {
-    flex: 1,
-    textAlign: 'center',
-    color: '#000000',
-    fontSize: 18,
+  welcome: {
+    fontSize: 40,
     fontFamily: 'Poppins-Bold',
+    color: '#000000',
+  },
+  subText: {
+    marginTop: 32,
+    color: '#898989',
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+  },
+  tokenText: {
+    marginTop: 32,
+    fontFamily: 'Poppins-Regular',
+    textAlign: 'left',
+    marginBottom: 5,
+    fontSize: 16,
+    color: '#FD9340',
+    textDecorationLine: 'underline',
   },
   textInput: {
     width: '100%',
